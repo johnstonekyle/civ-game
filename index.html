@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html lang="en">
+    <head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+		<!--Main CSS-->
+		<link rel="stylesheet" href="main.css" type="text/css">
+
+		<!--Animate.css-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+
+		<!--Hover.css-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" />
+
+		<!--Google Fonts-->
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+		<!--Font Awesome-->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		<title>Game</title>
+    </head>
+    <body>
+    	<div class="container-fluid p-0 m-0">
+			<div class="row">
+				<div class="col bg-light">
+					<div id="loading" class="text-center mt-3">Generating Map...</div>
+		      		<canvas id="canvas" width="0" height="0" style="border:1px solid #000000;"></canvas>
+		    	</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col bg-light text-center">
+		    		<div class="btn-group" role="group">
+
+                        <!------------------------->
+                        <!--COMMAND ALL VILLAGERS-->
+                        <!------------------------->
+		    			<div class="btn-group dropup">
+						  <button type="button" class="btn btn-outline-dark rounded-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    Command All Villagers
+						  </button>
+						  <div class="dropdown-menu">
+						    <a class="dropdown-item" onclick="changeState('idle');" href="#">Go Idle</a>
+						    <a class="dropdown-item" onclick="changeState('tree');" href="#">Chop Trees</a>
+						    <a class="dropdown-item" onclick="changeState('berryBush');" href="#">Gather Berries</a>
+						    <a class="dropdown-item" onclick="changeState('depot');" href="#">Unload Inventory</a>
+
+						  </div>
+						</div>
+
+                        <!------------------->
+                        <!--BUILD STRUCTURE-->
+                        <!------------------->
+                        <div class="btn-group dropup">
+						  <button type="button" class="btn btn-outline-dark rounded-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    Build
+						  </button>
+						  <div class="dropdown-menu" id="build">
+						  </div>
+						</div>
+
+						<button class="btn btn-outline-dark rounded-0" onclick="buyVillager();">Buy Villager</button>
+
+                        <!----------------------------->
+                        <!--COMMAND SELECTED VILLAGER-->
+                        <!----------------------------->
+						<div class="btn-group dropup" style="display: none;" id="selectedVillager">
+						  <button type="button" class="btn btn-outline-dark rounded-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    Command Selected
+						  </button>
+						  <div class="dropdown-menu">
+						    <a class="dropdown-item" onclick="changeSelectedState('idle');" href="#">Go Idle</a>
+						    <a class="dropdown-item" onclick="changeSelectedState('tree');" href="#">Chop Trees</a>
+						    <a class="dropdown-item" onclick="changeSelectedState('berryBush');" href="#">Gather Berries</a>
+						    <a class="dropdown-item" onclick="changeSelectedState('depot');" href="#">Unload Inventory</a>
+						  </div>
+						</div>
+					</div>
+		    	</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col text-center">
+		  			<div id="infoPanel"></div>
+		  		</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col text-center">
+		  			<img id="treeSprite" src="img/tree.png" width="15" height="15"> = Tree,
+					<img id="berryBushSprite" src="img/berryBush.png" width="15" height="15"> = Berry Bush,
+					<img id="houseSprite" src="img/house.png" width="15" height="15"> = House,
+					<img id="farmSprite" src="img/farm.png" width="15" height="15"> = Farm,
+					<img id="depotSprite" src="img/depot.png" width="15" height="15"> = Depot,
+					<img id="villagerSprite" src="img/villager.png" width="10" height="10"> = Villager,
+					<img id="barracksSprite" src="img/barracks.png" width="15" height="15"> = Barracks
+
+					<br>
+					<div>Icons made by <a href="https://www.flaticon.com/authors/nikita-golubev" title="Nikita Golubev">Nikita Golubev</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+		  		</div>
+		  	</div>
+		</div>
+
+		<!--My JS-->
+        <script type="text/javascript" src="js/update.js"></script>
+        <script type="text/javascript" src="js/objects.js"></script>
+        <script type="text/javascript" src="js/mapGen.js"></script>
+        <script type="text/javascript" src="js/update.js"></script>
+        <script type="text/javascript" src="js/buy.js"></script>
+        <script type="text/javascript" src="js/villagerAI.js"></script>
+        <script type="text/javascript" src="js/pathing.js"></script>
+        <script type="text/javascript" src="js/totals.js"></script>
+        <script type="text/javascript" src="js/gui.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+
+
+		<script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        </script>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    </body>
+</html>
